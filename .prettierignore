@@ -1,0 +1,8 @@
+node_modules
+.next
+.next-test-*
+package-lock.json
+src/types/*.generated.ts
+playwright-report
+test-results
+plans

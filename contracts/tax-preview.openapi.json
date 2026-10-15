@@ -1,0 +1,181 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "NeedIt UI preview contract — NOT backend OpenAPI",
+    "version": "0.0.0-preview",
+    "description": "Frontend-owned preview fixture. No Needit contract exists in the inspected backend. Replace before real integration."
+  },
+  "paths": {
+    "/api/needit/v1/tax/eligibility": {
+      "post": {
+        "operationId": "eligibility",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaxInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Preview only; not a backend contract",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Eligibility"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/needit/v1/tax/estimate": {
+      "post": {
+        "operationId": "estimate",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaxInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Preview only; not a backend contract",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Estimate"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/needit/v1/tax/guide": {
+      "get": {
+        "operationId": "guide",
+        "responses": {
+          "200": {
+            "description": "Preview only; not a backend contract",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Guide"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TaxInput": {
+        "type": "object",
+        "required": ["taxYear", "incomeType", "grossIncome", "withholdingTax"],
+        "properties": {
+          "taxYear": {
+            "type": "integer",
+            "minimum": 2000
+          },
+          "incomeType": {
+            "type": "string",
+            "enum": ["BUSINESS", "EMPLOYMENT", "OTHER", "MULTIPLE", "UNKNOWN"]
+          },
+          "grossIncome": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 999999999999
+          },
+          "withholdingTax": {
+            "type": ["integer", "null"],
+            "minimum": 0,
+            "maximum": 999999999999
+          }
+        }
+      },
+      "Eligibility": {
+        "type": "object",
+        "required": ["status", "message", "items"],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["REVIEW_REQUIRED", "MORE_INFO", "UNSUPPORTED"]
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Estimate": {
+        "type": "object",
+        "required": ["status", "refundAmount", "message"],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["AVAILABLE", "UNAVAILABLE", "MORE_INFO"]
+          },
+          "refundAmount": {
+            "type": ["integer", "null"],
+            "minimum": 0,
+            "maximum": 999999999999
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "Guide": {
+        "type": "object",
+        "required": ["title", "preparation", "steps", "officialUrl", "sourceUrl", "checkedAt"],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "preparation": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "steps": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "officialUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "sourceUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "checkedAt": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    }
+  }
+}
